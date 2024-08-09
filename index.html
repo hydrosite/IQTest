@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IQ Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f9fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            box-sizing: border-box;
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .question p {
+            font-size: 18px;
+            color: #555;
+            margin: 0 0 10px;
+        }
+        .question input[type="radio"] {
+            margin-right: 10px;
+        }
+        .submit-btn {
+            padding: 12px 24px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 500px;
+            padding: 30px;
+            box-sizing: border-box;
+            text-align: center;
+            z-index: 1000;
+        }
+        #result h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        #result p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        #result .submit-btn {
+            background-color: #28a745;
+        }
+        #result .submit-btn:hover {
+            background-color: #218838;
+        }
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quick IQ Test</h1>
+        <form id="iq-test">
+            <div class="question">
+                <p>1. What is 3 + 5?</p>
+                <input type="radio" name="q1" value="a"> 6<br>
+                <input type="radio" name="q1" value="b"> 7<br>
+                <input type="radio" name="q1" value="c"> 8<br>
+                <input type="radio" name="q1" value="d"> 9
+            </div>
+
+            <div class="question">
+                <p>2. What is the color of grass?</p>
+                <input type="radio" name="q2" value="a"> Blue<br>
+                <input type="radio" name="q2" value="b"> Red<br>
+                <input type="radio" name="q2" value="c"> Green<br>
+                <input type="radio" name="q2" value="d"> Yellow
+            </div>
+
+            <div class="question">
+                <p>3. What is the capital of Japan?</p>
+                <input type="radio" name="q3" value="a"> Beijing<br>
+                <input type="radio" name="q3" value="b"> Seoul<br>
+                <input type="radio" name="q3" value="c"> Tokyo<br>
+                <input type="radio" name="q3" value="d"> Bangkok
+            </div>
+
+            <div class="question">
+                <p>4. How many days are there in a week?</p>
+                <input type="radio" name="q4" value="a"> 5<br>
+                <input type="radio" name="q4" value="b"> 6<br>
+                <input type="radio" name="q4" value="c"> 7<br>
+                <input type="radio" name="q4" value="d"> 8
+            </div>
+
+            <div class="question">
+                <p>5. What is the largest planet in our solar system?</p>
+                <input type="radio" name="q5" value="a"> Earth<br>
+                <input type="radio" name="q5" value="b"> Mars<br>
+                <input type="radio" name="q5" value="c"> Jupiter<br>
+                <input type="radio" name="q5" value="d"> Saturn
+            </div>
+
+            <button type="button" class="submit-btn" onclick="calculateIQ()">Submit</button>
+        </form>
+    </div>
+
+    <div id="overlay"></div>
+    <div id="result">
+        <h2>Your IQ Score Result</h2>
+        <p id="iq-score"></p>
+        <button class="submit-btn" onclick="restartQuiz()">Try Again</button>
+    </div>
+
+    <script>
+        function calculateIQ() {
+            const answers = {
+                q1: 'c', // 8
+                q2: 'c', // Green
+                q3: 'c', // Tokyo
+                q4: 'c', // 7
+                q5: 'c'  // Jupiter
+            };
+
+            let score = 0;
+
+            for (const q in answers) {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                if (selected && selected.value === answers[q]) {
+                    score++;
+                }
+            }
+
+            let iqScore = 0;
+            let message = '';
+
+            if (score === 5) {
+                iqScore = 140;
+                message = 'YOU TO SMART.';
+            } else if (score === 4) {
+                iqScore = 120;
+                message = 'CLOSE BUT NOT QUITE.';
+            } else if (score === 3) {
+                iqScore = 100;
+                message = 'AVERAGE LOL.';
+            } else if (score === 2) {
+                iqScore = 80;
+                message = 'NEED MORE WORK.';
+            } else {
+                iqScore = 60;
+                message = 'YOU STUUUUBID.';
+            }
+
+            document.getElementById('iq-score').textContent = `Your estimated IQ score is: ${iqScore}. ${message}`;
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function restartQuiz() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('iq-test').reset();
+        }
+    </script>
+</body>
+</html>
